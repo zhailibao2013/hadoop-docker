@@ -38,8 +38,7 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
 
 ENV HADOOP_VERSION 3.2.2
 ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
-RUN useradd --uid 1000 hadoop \
-    && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
+RUN curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
     && curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
     && gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
@@ -49,19 +48,17 @@ RUN useradd --uid 1000 hadoop \
  #   && cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml \
     && mkdir /opt/hadoop-$HADOOP_VERSION/logs \
     && mkdir /hadoop-data \
-    && rm -Rf /opt/hadoop-$HADOOP_VERSION/share/doc/hadoop \
-    && chown -R hadoop:hadoop /opt/hadoop-$HADOOP_VERSION
+    && rm -Rf /opt/hadoop-$HADOOP_VERSION/share/doc/hadoop
 
 ENV HADOOP_PREFIX=/opt/hadoop-$HADOOP_VERSION
 ENV HADOOP_HOME=/opt/hadoop
 ENV HADOOP_CONF_DIR=/etc/hadoop
 ENV MULTIHOMED_NETWORK=1
 
-ENV USER=hadoop
+ENV USER=root
 ENV PATH $HADOOP_PREFIX/bin/:$PATH
 
 ADD entrypoint.sh /entrypoint.sh
-RUN chown hadoop:hadoop /entrypoint.sh && chmod a+x /entrypoint.sh
-USER hadoop
+RUN chmod a+x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

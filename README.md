@@ -1,5 +1,9 @@
 # Hadoop Docker
 
+fork from https://bitbucket.org/uhopper/hadoop-docker.git
+
+build hadoop docker images base on centos.
+
 This repository contains *Dockerfile*s for setting up a basic Hadoop cluster.
 The available components are:
 

@@ -1,4 +1,4 @@
-FROM uhopper/hadoop:2.8.1
+FROM uhopeful/hadoop:3.2.2
 
 ENV SPARK_VERSION 2.1.2
 

@@ -1,12 +1,10 @@
 FROM uhopeful/hadoop:3.2.2
 
 ENV HDFS_CONF_dfs_namenode_name_dir=file:///hadoop/dfs/name
-USER root
 RUN mkdir -p /hadoop/dfs/name
 VOLUME /hadoop/dfs/name
 
 ADD run.sh /run.sh
-RUN chmod a+x /run.sh && chown hadoop:hadoop /run.sh
-USER hadoop
+RUN chmod a+x /run.sh
 
 CMD ["/run.sh"]
